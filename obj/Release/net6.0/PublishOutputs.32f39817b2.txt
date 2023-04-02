@@ -1,0 +1,11 @@
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\MelyPhotography.exe
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\appsettings.json
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\MelyPhotography.dll
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\MelyPhotography.deps.json
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\MelyPhotography.runtimeconfig.json
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\MelyPhotography.pdb
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\DevelopmentStuff\Solutions\MelyPhotography\obj\Release\net6.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

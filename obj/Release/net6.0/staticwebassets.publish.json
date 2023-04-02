@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "Hash": "hrE34RuQ4lA1swR7In/VHs8lSTIePgLW31Mo5fSFgEc=",
+  "Source": "MelyPhotography",
+  "BasePath": "_content/MelyPhotography",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "MelyPhotography\\wwwroot",
+      "Source": "MelyPhotography",
+      "ContentRoot": "C:\\DevelopmentStuff\\Solutions\\MelyPhotography\\wwwroot\\",
+      "BasePath": "_content/MelyPhotography",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\DevelopmentStuff\\Solutions\\MelyPhotography\\wwwroot\\Uploads\\IMG_20220529_202330_880.jpg",
+      "SourceId": "MelyPhotography",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\DevelopmentStuff\\Solutions\\MelyPhotography\\wwwroot\\",
+      "BasePath": "_content/MelyPhotography",
+      "RelativePath": "Uploads/IMG_20220529_202330_880.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\IMG_20220529_202330_880.jpg"
+    },
+    {
+      "Identity": "C:\\DevelopmentStuff\\Solutions\\MelyPhotography\\wwwroot\\Uploads\\IMG_20220529_202331_043.jpg",
+      "SourceId": "MelyPhotography",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\DevelopmentStuff\\Solutions\\MelyPhotography\\wwwroot\\",
+      "BasePath": "_content/MelyPhotography",
+      "RelativePath": "Uploads/IMG_20220529_202331_043.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\IMG_20220529_202331_043.jpg"
+    },
+    {
+      "Identity": "C:\\DevelopmentStuff\\Solutions\\MelyPhotography\\wwwroot\\Uploads\\IMG_20220724_144813_496.jpg",
+      "SourceId": "MelyPhotography",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\DevelopmentStuff\\Solutions\\MelyPhotography\\wwwroot\\",
+      "BasePath": "_content/MelyPhotography",
+      "RelativePath": "Uploads/IMG_20220724_144813_496.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Uploads\\IMG_20220724_144813_496.jpg"
+    }
+  ]
+}
