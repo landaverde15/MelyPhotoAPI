@@ -11,16 +11,19 @@ var corsSpecs = "CorsSpecs";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: corsSpecs,
-                      builder =>
+                      policy =>
                       {
-                          builder.WithOrigins("http://localhost:3000",
-                                              "https://www.mely.photos/",
-                                              "http://www.mely.photos/");
+                          policy.WithOrigins("http://localhost:3000",
+                                              "https://www.mely.photos",
+                                              "http://www.mely.photos")
+                                                .AllowAnyHeader()
+                                                .AllowAnyMethod();
                       });
 });
 
 var app = builder.Build();
 
+app.UseSwagger();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

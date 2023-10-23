@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using MelyPhotography.Models;
 using System.Diagnostics;
+using MongoDB.Driver;
+using MongoDB.Bson;
+using MongoDB.Driver.Linq;
+using System;
+using System.IO;
 
 namespace MelyPhotography.Controllers
 {
@@ -12,56 +14,68 @@ namespace MelyPhotography.Controllers
     public class PhotosController : ControllerBase
     {
 
-        private Microsoft.AspNetCore.Hosting.IHostingEnvironment Environment;
-        public PhotosController(Microsoft.AspNetCore.Hosting.IHostingEnvironment _environment)
+        private readonly IConfiguration _configuration;
+        public PhotosController(IConfiguration configuration)
         {
-            Environment = _environment;
+            _configuration = configuration;
         }
 
+        #region Public API Methods
         /// <summary>
-        /// Uploads image(s) to server
+        /// Uploads image to DB
         /// </summary>
-        /// <param name="file">IFormFile file(s)</param>
+        /// <param name="file">IFormFile file</param>
         /// <returns>instance of UploadDTO object</returns>
         [HttpPost]
         [Route("UploadImage")]
         [ActionName("UploadImage")]
-        public async Task<UploadDTO> UploadFiles(List<IFormFile> files)
+        public async Task<UploadResultDTO> UploadFile(IFormFile file, string passcodeID)
         {
-            UploadDTO result = new UploadDTO();
-            List<string> uploadedFiles = new List<string>();
-            string wwwPath = string.Empty;
-            string contentPath = string.Empty;
-            string path = string.Empty;
-
+            UploadResultDTO result = new UploadResultDTO();
+            byte[] byteImage = new byte[] { };
+            
             try
             {
-                wwwPath = this.Environment.WebRootPath;
-                contentPath = this.Environment.ContentRootPath;
-                path = Path.Combine(this.Environment.WebRootPath, "Uploads");
-
-                if (!Directory.Exists(path))
+                if (passcodeID == Environment.GetEnvironmentVariable("PasscodeID").ToString())
                 {
-                    Directory.CreateDirectory(path);
-                }
-
-                foreach(IFormFile file in files)
-                {
-                    string fileName = Path.GetFileName(file.FileName);
-                    using (FileStream stream = new FileStream(Path.Combine(path, fileName), FileMode.Create))
+                    if (file == null || file.Length == 0)
                     {
-                        file.CopyTo(stream);
-                        uploadedFiles.Add(fileName);
+                        result.Message = "Image not submitted";
+                        result.Success = false;
                     }
-                }
+                    else
+                    {
 
-                result.files = uploadedFiles;
-                result.success = true;
+                        using (var stream = new MemoryStream())
+                        {
+                            file.CopyTo(stream);
+                            byteImage = stream.ToArray();
+                        }
+                        BsonDocument doc = new BsonDocument
+                        {
+                            { "photo", Convert.ToBase64String(byteImage) }
+                        };
+                        MongoClient client = GetMongoDBConnection();
+                        var collection = client.GetDatabase(Environment.GetEnvironmentVariable("MongoDB")).GetCollection<BsonDocument>(this._configuration.GetValue<string>("MongoCollection"));
+                        InsertOneOptions options = new InsertOneOptions() { BypassDocumentValidation = true };
+                        await collection.InsertOneAsync(doc, options);
+
+                        result.Message = "Image saved";
+                        result.Success = true;
+                    }
+
+
+                } else
+                {
+                    result.Success = false;
+                    result.Message = "Access Denied";
+                }
 
 
             } catch(Exception ex) 
             {
-                result.success = false; 
+                result.Success = false;
+                result.Message = "Something went wrong";
                 Trace.WriteLine(ex.Message);
             }
 
@@ -75,27 +89,45 @@ namespace MelyPhotography.Controllers
         [HttpGet]
         [Route("GetImages")]
         [ActionName("GetImages")]
-        public async Task<GetPhotosDTO> GetImages()
+        public GetAllPhotosDTO GetImages()
         {
-            GetPhotosDTO result = new GetPhotosDTO();
-            List<string> images = new List<string>();
-
+            GetAllPhotosDTO result = new GetAllPhotosDTO();
             try
             {
-                string[] files = Directory.GetFiles(Path.Combine(this.Environment.WebRootPath, "Uploads/"));
-                foreach (string file in files)
-                {
-                    images.Add(file);
-                }
-                result.photos = images;
-                result.success = true;
+                MongoClient client = GetMongoDBConnection();
+                IMongoCollection<PhotoDTO> collection = client.GetDatabase(Environment.GetEnvironmentVariable("MongoDB")).GetCollection<PhotoDTO>(this._configuration.GetValue<string>("MongoCollection"));
+                IMongoQueryable<PhotoDTO> query = collection.AsQueryable()
+                    .Select(image => image);
+
+                result.Photos = query;
+                result.Success = true;
             } catch(Exception ex)
             {
-                result.success = false;
+                result.Success = false;
                 Trace.WriteLine(ex.Message);
             }
 
             return result;
         }
+        #endregion
+
+        #region MongoDB Methods
+        private MongoClient GetMongoDBConnection()
+        {
+            MongoClient client = new MongoClient();
+
+            try
+            {
+                string connectionString = Environment.GetEnvironmentVariable("MongoDBConnectionString");
+                client = new MongoClient(connectionString);
+
+            } catch(Exception ex)
+            {
+                Trace.WriteLine(ex.Message);
+            }
+
+            return client;
+        }
+        #endregion
     }
 }
