@@ -36,7 +36,7 @@ namespace MelyPhotography.Controllers
             
             try
             {
-                if (passcodeID == Environment.GetEnvironmentVariable("PasscodeID").ToString())
+                if (passcodeID == Environment.GetEnvironmentVariable("APPSETTING_PasscodeID").ToString())
                 {
                     if (file == null || file.Length == 0)
                     {
@@ -56,7 +56,7 @@ namespace MelyPhotography.Controllers
                             { "photo", Convert.ToBase64String(byteImage) }
                         };
                         MongoClient client = GetMongoDBConnection();
-                        var collection = client.GetDatabase(Environment.GetEnvironmentVariable("MongoDB")).GetCollection<BsonDocument>(this._configuration.GetValue<string>("MongoCollection"));
+                        var collection = client.GetDatabase(Environment.GetEnvironmentVariable("APPSETTING_MongoDB")).GetCollection<BsonDocument>(this._configuration.GetValue<string>("MongoCollection"));
                         InsertOneOptions options = new InsertOneOptions() { BypassDocumentValidation = true };
                         await collection.InsertOneAsync(doc, options);
 
@@ -95,7 +95,7 @@ namespace MelyPhotography.Controllers
             try
             {
                 MongoClient client = GetMongoDBConnection();
-                IMongoCollection<PhotoDTO> collection = client.GetDatabase(Environment.GetEnvironmentVariable("MongoDB")).GetCollection<PhotoDTO>(this._configuration.GetValue<string>("MongoCollection"));
+                IMongoCollection<PhotoDTO> collection = client.GetDatabase(Environment.GetEnvironmentVariable("APPSETTING_MongoDB")).GetCollection<PhotoDTO>(this._configuration.GetValue<string>("MongoCollection"));
                 IMongoQueryable<PhotoDTO> query = collection.AsQueryable()
                     .Select(image => image);
 
@@ -118,7 +118,7 @@ namespace MelyPhotography.Controllers
 
             try
             {
-                string connectionString = Environment.GetEnvironmentVariable("MongoDBConnectionString");
+                string connectionString = Environment.GetEnvironmentVariable("APPSETTING_MongoDBConnectionString");
                 client = new MongoClient(connectionString);
 
             } catch(Exception ex)
